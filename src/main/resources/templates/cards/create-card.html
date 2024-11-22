@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Создаем карточку</title>
+</head>
+<body>
+    <form th:action="@{/cards/create}" enctype="multipart/form-data" method="post" th:object="${card}">
+        <label for="image">Image:
+            <input id="image" type="file" name="image">
+        </label><br>
+        <label for="name">Name:
+            <input id="name" type="text" name="name">
+        </label><br>
+        <label for="question">Question:
+            <input id="question" type="text" name="question">
+        </label><br>
+        <label for="rightAnswer">Right Answer:
+            <input id="rightAnswer" type="text" name="rightAnswer">
+        </label><br>
+        <label for="answers">Answers:
+            <input id="answers" type="text" name="answers">
+        </label><br>
+
+        <button>Submit</button>
+
+    </form>
+</body>
+</html>

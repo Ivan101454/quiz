@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Card</title>
+<!--    <script type="text/javascript" th:src="@{/js/actions.js}"></script>-->
+</head>
+<body>
+    <p th:text="${card.question}"></p>
+
+    <div>
+        <img th:src="@{'/images/'+${card.getNameOfImage()}}" alt="question image" width="300">
+    </div>
+    <div th:each="answer : ${card.getAnswerList()}">
+        <input type="radio" name="answer" th:text="${answer}">
+    </div>
+    <button id="button" th:text="Ответ"></button>
+    <script type="text/javascript" th:src="@{/js/actions.js}" th:inline="javascript">
+        let answer_right = [[${card.getRightAnswer()}]];
+        let value = document.querySelector('input[name="answer"]:checked').value;
+        let result;
+        if(value === answer_right) {
+            result = "Это правильный ответ";
+        } else {
+            result = "Это неверный ответ";
+        }
+        document.querySelector("#button").addEventListener("click", showAnswer(result));
+    </script>
+    <div>
+        <label for="link">Следующий вопрос
+            <a id="link" th:href="@{/cards/{link}(link=${card.getId()}+1)}">NEXT</a>
+        </label>
+    </div>
+</body>
+</html>
