@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <title>Card</title>
 <!--    <script type="text/javascript" th:src="@{/js/actions.js}"></script>-->
+    <script type="javascript" th:inline="javascript">
+            let answer_right;
+            // let value = document.querySelector('input[name="answer"]:checked').value;
+            let value;
+            let result;
+    </script>
 </head>
 <body>
     <p th:text="${card.question}"></p>
@@ -12,24 +18,55 @@
         <img th:src="@{'/images/'+${card.getNameOfImage()}}" alt="question image" width="300">
     </div>
     <div th:each="answer : ${card.getAnswerList()}">
-        <input type="radio" name="answer" th:text="${answer}">
+        <input type="radio" name="answer" th:value="${answer}" th:text="${answer}">
     </div>
-    <button id="button" th:text="Ответ"></button>
-    <script type="text/javascript" th:src="@{/js/actions.js}" th:inline="javascript">
-        let answer_right = [[${card.getRightAnswer()}]];
-        let value = document.querySelector('input[name="answer"]:checked').value;
-        let result;
-        if(value === answer_right) {
-            result = "Это правильный ответ";
-        } else {
-            result = "Это неверный ответ";
+        <button onclick="showAnswer()">Ответ</button>
+        <p id="showtext"></p>
+    <script th:inline="javascript">
+
+        function getValues() {
+            answer_right = /*[[${card.getRightAnswer()}]]*/ "default";
+            let temp = [[${card.getRightAnswer()}]];
+            let radios = document.getElementsByName("answer");
+            for(let radio of radios) {
+                if(radio.checked) {
+                    value = radio.value;
+                }
+            }
+            if(value === answer_right) {
+                result = "Это правильный ответ";
+            } else {
+                result = "Это неверный ответ";
+            }
         }
-        document.querySelector("#button").addEventListener("click", showAnswer(result));
+        function showAnswer() {
+            getValues();
+            // alert("Правильный ответ: " + result);
+            document.getElementById("showtext").textContent = result;
+        }
     </script>
     <div>
         <label for="link">Следующий вопрос
             <a id="link" th:href="@{/cards/{link}(link=${card.getId()}+1)}">NEXT</a>
         </label>
     </div>
+<!--    <script type="text/javascript" th:src="@{/js/actions.js}" th:inline="javascript">-->
+<!--    <script type="javascript" th:inline="javascript">-->
+<!--        let answer_right = [[${card.getRightAnswer()}]];-->
+<!--        let value = document.querySelector('input[name="answer"]:checked').value;-->
+<!--        let result = "default";-->
+<!--        if(value === answer_right) {-->
+<!--            result = "Это правильный ответ";-->
+<!--        } else {-->
+<!--            result = "Это неверный ответ";-->
+<!--        }-->
+<!--        function showAnswer() {-->
+<!--            // alert("Правильный ответ: " + result);-->
+<!--            document.getElementById("showtext").textContent = result;-->
+<!--        }-->
+
+<!--        // var title = /*[[${title}]]*/ "данных нет";-->
+<!--        // document.querySelector("#button").addEventListener("click", showAnswer(result));-->
+
 </body>
 </html>
